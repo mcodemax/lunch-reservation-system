@@ -42,23 +42,25 @@ class Reservation {
   /** save this customer. */
 
   async save() {
-    if (this.id === undefined) {
+    if (this.id === undefined) {//prob need2change this conditional
       const result = await db.query(
-        `INSERT INTO customers (first_name, last_name, phone, notes)
+        `INSERT INTO reservations (customer_id, start_at, num_guests, notes)
              VALUES ($1, $2, $3, $4)
              RETURNING id`,
-        [this.firstName, this.lastName, this.phone, this.notes]
+        [this.customerId, this.startAt, this.numGuests, this.notes]
       );
-      this.id = result.rows[0].id;
-    } else {
+      this.id = result.rows[0].id; //probably need some validation on customer id?
+    } else { //this else stament would be used in an edit resevations route which has not been implemented in app yet.
       await db.query(
-        `UPDATE customers SET first_name=$1, last_name=$2, phone=$3, notes=$4
-             WHERE id=$5`,
-        [this.firstName, this.lastName, this.phone, this.notes, this.id]
+        `UPDATE reservations SET start_at=$1, num_guests=$2, notes=$3
+             WHERE customer_id=$4`,
+        [this.startAt, this.numGuests, this.notes, this.customerId]
       );
     }
   }
 }
 
+
+customer_id, start_at, num_guests, notes
 
 module.exports = Reservation;
