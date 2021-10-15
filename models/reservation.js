@@ -39,7 +39,7 @@ class Reservation {
     return results.rows.map(row => new Reservation(row));
   }
 
-  /** save this customer. */
+  /** save this reservation. */
 
   async save() {
     if (this.id === undefined) {//prob need2change this conditional
@@ -51,16 +51,15 @@ class Reservation {
       );
       this.id = result.rows[0].id; //probably need some validation on customer id?
     } else { //this else stament would be used in an edit resevations route which has not been implemented in app yet.
-      await db.query(
-        `UPDATE reservations SET start_at=$1, num_guests=$2, notes=$3
-             WHERE customer_id=$4`,
-        [this.startAt, this.numGuests, this.notes, this.customerId]
-      );
+      throw new Error('Unable to add reservation')
+      // await db.query(
+      //   `UPDATE reservations SET start_at=$1, num_guests=$2, notes=$3
+      //        WHERE customer_id=$4`,
+      //   [this.startAt, this.numGuests, this.notes, this.customerId]
+      // );
     }
   }
 }
 
-
-customer_id, start_at, num_guests, notes
 
 module.exports = Reservation;
